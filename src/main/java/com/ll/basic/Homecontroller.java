@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 // @Controller 어노테이션을 붙여주면 이 스프링부트가
 @Controller
@@ -16,7 +17,9 @@ public class Homecontroller {
 
     @GetMapping("/")
     @ResponseBody
-    public String showMain() { return "안녕하세요."; }
+    public String showMain() {
+        return "안녕하세요.";
+    }
 
     @GetMapping("/about")
     @ResponseBody
@@ -99,7 +102,45 @@ public class Homecontroller {
                 .body("내용")
                 .build();
     }
+
+    @GetMapping("/articleList")
+    @ResponseBody
+    public List<Article> getArticles() {
+        return List.of(
+                Article.builder().title("제목1").body("내용1").build(),
+                Article.builder().title("제목2").body("내용2").build()
+        );
+    }
+
+    @GetMapping("/articleMap")
+    @ResponseBody
+    public Map<String, Article> articleMap() {
+        return Map.of(
+                "article1", Article.builder().title("제목1").body("내용1").build(),
+                "article2", Article.builder().title("제목2").body("내용2").build()
+        );
+
+    }
+
+    @GetMapping("/articleList.html")
+    @ResponseBody
+    public String getArticlesDoHtml() {
+        Article article1 = Article.builder().id(1).title("제목1").body("내용1").build();
+        Article article2 = Article.builder().id(2).title("제목2").body("내용2").build();
+        Article article3 = Article.builder().id(3).title("제목3").body("내용3").build();
+        Article article4 = Article.builder().id(4).title("제목4").body("내용4").build();
+
+        List<Article> articles = List.of(article1, article2, article3, article4);
+
+        String lis = articles
+                .stream()
+                .map(article -> "<li>%d번 / %s</li>".formatted(article.getId(), article.getTitle()))
+                .collect(Collectors.joining("\n"));
+
+        return "<ul style=\"font-weight: bold; color : red;\">\n" + lis + "\n</ul>";
+    }
 }
+
 @Getter
 @Builder
 class Article {
