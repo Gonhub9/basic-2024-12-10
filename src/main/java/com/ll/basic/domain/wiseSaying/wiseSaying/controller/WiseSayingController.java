@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController // 여기에 붙이면 모든 메서드에 적용
 @RequiredArgsConstructor // 생성자를 자동으로 만들어줌, final 붙은 필드를 자동으로 초기화해주는 어노테이션
@@ -24,11 +25,25 @@ public class WiseSayingController {
     @GetMapping("/wiseSayings/write")
     public WiseSaying write(
             // ? 뒤에 content 파라미터 값이 들어온다.
-            @RequestParam(name = "content") String content,
+            String content,
 
             // ? 뒤에 author 파라미터 값이 들어온다.
-            @RequestParam(name = "author") String author
+            @RequestParam(defaultValue = "무명") String author
     ) {
         return wiseSayingService.write(content, author);
+    }
+
+    @GetMapping("/wiseSayings/1")
+    public WiseSaying getItem() {
+        Optional<WiseSaying> opWiseSaying = wiseSayingService.findById(1L);
+
+        return opWiseSaying.get();
+    }
+
+    @GetMapping("/wiseSayings/2")
+    public WiseSaying getItem() {
+        Optional<WiseSaying> opWiseSaying = wiseSayingService.findById(2L);
+
+        return opWiseSaying.get();
     }
 }
