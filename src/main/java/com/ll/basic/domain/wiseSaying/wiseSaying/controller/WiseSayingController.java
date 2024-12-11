@@ -27,7 +27,6 @@ public class WiseSayingController {
     public WiseSaying write(
             // ? 뒤에 content 파라미터 값이 들어온다.
             String content,
-
             @RequestParam(defaultValue = "무명") String author
     ) {
         return wiseSayingService.write(content, author);
@@ -47,5 +46,18 @@ public class WiseSayingController {
             @PathVariable (name = "id") long id
     ) {
         return wiseSayingService.deleteById(id);
+    }
+
+    @GetMapping("/wiseSayings/{id}/modify")
+    public WiseSaying modifyItem(
+            @PathVariable (name = "id") long id,
+            @RequestParam (name = "content") String content,
+            @RequestParam(name = "author" ,defaultValue = "무명") String author
+    ) {
+        WiseSaying wiseSaying = wiseSayingService.findById(id).get();
+
+        wiseSayingService.modify(wiseSaying, content, author);
+
+        return wiseSaying;
     }
 }

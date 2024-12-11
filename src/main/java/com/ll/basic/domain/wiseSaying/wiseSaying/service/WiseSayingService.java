@@ -36,4 +36,12 @@ public class WiseSayingService {
     public boolean deleteById(long id) {
         return wiseSayingRepository.deleteById(id);
     }
+
+    public WiseSaying modify(WiseSaying wiseSaying, String content, String author) {
+        wiseSaying.setContent(content);
+        wiseSaying.setAuthor(author);
+
+        wiseSayingRepository.save(wiseSaying);
+        return wiseSaying;
+    }
 }

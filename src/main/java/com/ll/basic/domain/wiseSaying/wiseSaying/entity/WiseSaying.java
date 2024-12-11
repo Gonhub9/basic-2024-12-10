@@ -6,8 +6,8 @@ import lombok.Setter;
 
 @Builder
 @Getter
+@Setter
 public class WiseSaying {
-    @Setter
     private long id;
     private String content;
     private String author;
