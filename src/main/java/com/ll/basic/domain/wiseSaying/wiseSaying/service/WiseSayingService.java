@@ -45,4 +45,17 @@ public class WiseSayingService {
                 .sorted(Comparator.comparing(WiseSaying::getId).reversed())
                 .toList();
     }
+
+    public WiseSaying write(String content, String author) {
+        WiseSaying wiseSaying = WiseSaying
+                .builder()
+                .id(++lastId)
+                .content(content)
+                .author(author)
+                .build();
+
+        wiseSayings.add(wiseSaying);
+
+        return wiseSaying;
+    }
 }

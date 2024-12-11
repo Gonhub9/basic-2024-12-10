@@ -9,5 +9,4 @@ public class WiseSaying {
     private long id;
     private String content;
     private String author;
-
 }
