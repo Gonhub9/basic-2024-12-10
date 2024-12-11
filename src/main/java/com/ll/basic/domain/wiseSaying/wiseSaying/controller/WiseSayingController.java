@@ -4,6 +4,7 @@ import com.ll.basic.domain.wiseSaying.wiseSaying.entity.WiseSaying;
 import com.ll.basic.domain.wiseSaying.wiseSaying.service.WiseSayingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,22 +28,16 @@ public class WiseSayingController {
             // ? 뒤에 content 파라미터 값이 들어온다.
             String content,
 
-            // ? 뒤에 author 파라미터 값이 들어온다.
             @RequestParam(defaultValue = "무명") String author
     ) {
         return wiseSayingService.write(content, author);
     }
 
-    @GetMapping("/wiseSayings/1")
-    public WiseSaying getItem() {
-        Optional<WiseSaying> opWiseSaying = wiseSayingService.findById(1L);
-
-        return opWiseSaying.get();
-    }
-
-    @GetMapping("/wiseSayings/2")
-    public WiseSaying getItem() {
-        Optional<WiseSaying> opWiseSaying = wiseSayingService.findById(2L);
+    @GetMapping("/wiseSayings/{id}")
+    public WiseSaying getItem(
+            @PathVariable (name = "id") long id
+    ) {
+        Optional<WiseSaying> opWiseSaying = wiseSayingService.findById(id);
 
         return opWiseSaying.get();
     }
